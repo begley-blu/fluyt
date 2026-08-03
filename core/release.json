@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "core_version": "0.2.8-28aa69-dirty",
+  "generated": "2026-08-03T22:11:01Z",
+  "builds": [
+    {
+      "os": "darwin",
+      "arch": "arm64",
+      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.8-28aa69-dirty/fluyt-darwin-arm64",
+      "sha256": "b2ac33c2529208199eccd1644b043274ec4d8d5d5f0ff17e6f2e05a4e2c2d693",
+      "size": 11073120
+    },
+    {
+      "os": "linux",
+      "arch": "amd64",
+      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.8-28aa69-dirty/fluyt-linux-amd64",
+      "sha256": "5dc9dff0aeefd4801d07585a2e734bf1fadb50b83bda8392d276675d15f0b996",
+      "size": 9859234
+    },
+    {
+      "os": "windows",
+      "arch": "amd64",
+      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.8-28aa69-dirty/fluyt-windows-amd64.exe",
+      "sha256": "c28e62a611e8ea93da933b07335dd131a61da1d209086e9800eb36a46b3cd620",
+      "size": 12729344
+    }
+  ],
+  "signature": "IQyjM7CfVzYbe85zzBkc0R0/P4bOhz1DBYhr+IMRdf6VTfMv4/Rq4FmdVxqcIB5oK9kNnSRk/rUUm37Yvgn9Bg==",
+  "signing_key_id": "fluyt-release"
+}
