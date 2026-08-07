@@ -1,11 +1,67 @@
-# Fluyt
+<p align="center">
+  <img src="assets/fluyt_logo.png" alt="Fluyt" width="200">
+</p>
 
-A universal log shipper. It listens for syslog on the host, sorts messages by
-rules you write, and delivers them to an HTTP endpoint — spooling to disk when
-the endpoint is unreachable so nothing is lost while it is down.
+<h1 align="center">Fluyt</h1>
 
-This repository holds the released binaries and the signed document that
-describes them. The source lives elsewhere; there is nothing to build here.
+<p align="center">
+  <img src="https://img.shields.io/badge/version-v0.2.37-blue" alt="Version">
+  <img src="https://img.shields.io/badge/macOS-Apple%20Silicon-lightgrey" alt="macOS">
+  <img src="https://img.shields.io/badge/Windows-x86--64-lightgrey" alt="Windows">
+  <img src="https://img.shields.io/badge/Linux-x86--64-lightgrey" alt="Linux">
+  <img src="https://img.shields.io/badge/built%20with-Go-00ADD8" alt="Go">
+  <img src="https://img.shields.io/badge/license-as--is-orange" alt="License">
+</p>
+
+Collect logs from syslog, vendor APIs, and cloud platforms. Route them to any
+SIEM, data lake, or observability stack. Never lose a message — every
+destination has its own on-disk buffer, and delivery resumes exactly where it
+left off after an outage, a restart, or an update. One binary, one config file,
+native service integration on Windows, Linux, and macOS.
+
+This repository holds the released binaries and the signed release manifest.
+Integrations (input and output modules) are published separately at
+[fluyt-modules](https://github.com/begley-blu/fluyt-modules).
+
+## Highlights
+
+- **Collect from anywhere.** Syslog (UDP and TCP) is built in. Vendor API
+  integrations — security tools, cloud platforms, AI compliance feeds, network
+  infrastructure — install as modules with a single command.
+- **Deliver to anywhere.** HTTP log ingestion is built in. Modules add syslog
+  forwarding, Amazon S3, Datadog, Elasticsearch / OpenSearch, Grafana Loki,
+  Microsoft Sentinel, Rapid7, and more.
+- **Content-aware routing.** Match on input, detected message format, source IP
+  or CIDR, or any combination. Fan out a single event to multiple destinations.
+- **Zero-loss delivery.** Every output spools to disk independently. The read
+  cursor advances only after the destination acknowledges. A failed endpoint
+  backs up its own spool and nothing else.
+- **Self-updating with rollback.** Fluyt checks for newer releases, verifies
+  the download, swaps the binary, and rolls back automatically if the new
+  version does not come up.
+- **Cross-platform.** Runs as a Windows service (SCM), a systemd unit, or a
+  macOS LaunchDaemon. Same binary, same config, same behavior.
+- **Management UI.** A native desktop UI on macOS and Windows for configuring
+  inputs, outputs, and routes. Full CLI on every platform.
+- **Modular and verified.** Install only the integrations you need. Each module
+  is cryptographically signed and verified before every launch.
+
+## Integrations
+
+Syslog reception and HTTP log ingestion are compiled into every Fluyt binary and
+work with no modules installed.
+
+Everything else — vendor API inputs and additional output destinations — ships as
+a signed module package. Browse the full catalog of available integrations at
+[fluyt-modules](https://github.com/begley-blu/fluyt-modules), or from the CLI:
+
+```
+fluyt module catalog
+```
+
+Modules cover security and endpoint tools, identity providers, cloud
+infrastructure, AI platform compliance, vulnerability management, and
+SIEM / observability destinations.
 
 ## Install
 
@@ -37,13 +93,29 @@ fluyt install
 ```
 
 That writes a default config if there is none, registers the service, and starts
-it. It needs administrator on Windows or root elsewhere. `fluyt status` reports
-service state and per-input and per-output health, `fluyt restart` applies config
-changes, and `fluyt uninstall` removes the registration.
+it. It needs administrator on Windows or root elsewhere.
 
-On macOS and Windows, run the binary with no arguments to open the management UI,
-where you configure inputs, outputs, and routes. `fluyt run` is the same program
-in the foreground, which is what the service invokes.
+## Getting started
+
+1. Run `fluyt install` (elevated).
+2. On macOS or Windows, launch the binary with no arguments to open the
+   management UI. On Linux, edit `/etc/fluyt/config.json` directly.
+3. Add an **output** — paste the URL and token for your ingestion endpoint and
+   save it.
+4. Add a **route** — select an input, leave the match empty for a catch-all, and
+   point it at your output.
+5. Click **Restart** (or `fluyt restart` on Linux) so the service picks up the
+   new config.
+6. Point your devices' syslog at this host on port 514 and watch the dashboard.
+
+To collect from a vendor API, install the module first:
+
+```
+fluyt module get <id>      # e.g. fluyt module get okta_input
+fluyt restart
+```
+
+Then add the new input and a route for it.
 
 ### Configuring a Linux host
 
@@ -63,15 +135,38 @@ foreground against a scratch copy:
 sudo fluyt run --config ./test-config.json
 ```
 
-### Verify what you downloaded
+### Configuration paths
 
-Every binary's SHA-256 is in [`core/release.json`](core/release.json), which is
-signed. Check yours before you install it:
+| Platform | Path |
+|---|---|
+| Windows | `%ProgramData%\Fluyt\config.json` |
+| Linux | `/etc/fluyt/config.json` |
+| macOS | `/Library/Application Support/Fluyt/config.json` |
 
-```
-shasum -a 256 fluyt-linux-amd64        # macOS, Linux
-certutil -hashfile fluyt-windows-amd64.exe SHA256   # Windows
-```
+On macOS and Windows the management UI reads and writes this file, so it needs
+to run elevated. On Linux, edit it with any text editor.
+
+## CLI reference
+
+| Command | What it does |
+|---|---|
+| `fluyt` | Open the management UI (macOS / Windows) |
+| `fluyt run` | Run the log shipper in the foreground |
+| `fluyt install` | Register and start the OS service *(needs elevation)* |
+| `fluyt uninstall` | Stop and remove the OS service *(needs elevation)* |
+| `fluyt uninstall --purge` | Also delete config and spool data |
+| `fluyt start` / `stop` / `restart` | Control the installed service |
+| `fluyt status` | Print service state and per-input / per-output health |
+| `fluyt module catalog` | List modules available to install |
+| `fluyt module get <id>` | Download and install a module *(needs elevation)* |
+| `fluyt module list` | Show installed modules |
+| `fluyt module remove <id>` | Remove an installed module *(needs elevation)* |
+| `fluyt module verify` | Verify the integrity of installed modules |
+| `fluyt update` | Replace this binary with the published release *(needs elevation)* |
+| `fluyt update --check` | Report what is published without changing anything |
+| `fluyt version` | Print the version |
+
+Run `fluyt <command> --help` for a command's flags.
 
 ## Updating
 
@@ -102,15 +197,16 @@ Older releases stay in this repository. To go back to one, download it and run
 
 ## Modules
 
-Inputs that poll a vendor API — rather than receiving syslog — ship as separate
-signed packages from a module catalog, so a new integration does not require a
-new Fluyt release. Install them from the **Add module** page in the management
-UI, or — always, and the only way on Linux — from a terminal:
+Inputs that poll a vendor API — rather than receiving syslog — and output
+destinations beyond HTTP ingestion ship as separately signed module packages.
+A new integration does not require a new Fluyt release.
+
+Install from the **Add module** page in the management UI, or from a terminal:
 
 ```
 fluyt module catalog    # what is published
-fluyt module get <id>   # download one and install it
-fluyt module list       # what is installed, and whether it loads
+fluyt module get <id>   # download and install
+fluyt module list       # what is installed
 fluyt module remove <id>
 ```
 
@@ -118,9 +214,21 @@ Modules carry their own version numbers and update independently of Fluyt
 itself. The UI marks the ones with an update available; `fluyt module catalog`
 shows the same thing as a list.
 
-A module is a separate executable, verified against its signed manifest
-immediately before every launch. One that fails verification does not run, and
-Fluyt keeps shipping syslog without it.
+Each module is a separate executable, cryptographically signed and verified
+before every launch. A module that fails verification does not run, and Fluyt
+keeps shipping without it.
+
+Browse the full catalog: [fluyt-modules](https://github.com/begley-blu/fluyt-modules).
+
+### Verify what you downloaded
+
+Every binary's SHA-256 is in [`core/release.json`](core/release.json), which is
+signed. Check yours before you install it:
+
+```
+shasum -a 256 fluyt-linux-amd64        # macOS, Linux
+certutil -hashfile fluyt-windows-amd64.exe SHA256   # Windows
+```
 
 ## Releases
 
@@ -143,8 +251,6 @@ kept so an older build stays installable. A release's directory is never
 rewritten — a rebuild gets a new version and a new directory, so a URL that
 worked once keeps serving the same bytes.
 
-## Reporting a problem
+## License
 
-Open an issue with the output of `fluyt version` and `fluyt status`, and say
-which platform you are on. Please do not attach logs without reading them first;
-they contain whatever your devices sent.
+This software is provided as-is, without warranty of any kind.
