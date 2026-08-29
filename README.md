@@ -5,7 +5,7 @@
 <h1 align="center">Fluyt</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-v0.2.48-blue" alt="Version">
+  <img src="https://img.shields.io/badge/version-v0.2.49-blue" alt="Version">
   <img src="https://img.shields.io/badge/macOS-Apple%20Silicon-lightgrey" alt="macOS">
   <img src="https://img.shields.io/badge/Windows-x86--64-lightgrey" alt="Windows">
   <img src="https://img.shields.io/badge/Linux-x86--64-lightgrey" alt="Linux">
