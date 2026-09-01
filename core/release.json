@@ -1,7 +1,7 @@
 {
   "version": 1,
   "core_version": "0.2.50-9e76e8",
-  "generated": "2026-09-01T00:39:59Z",
+  "generated": "2026-09-01T21:08:18Z",
   "builds": [
     {
       "os": "darwin",
@@ -25,6 +25,6 @@
       "size": 13833216
     }
   ],
-  "signature": "1lq0e4MAMxHSQMKnf4kvpdWupkJxc+Vyk4rR2Pnj64n4g5Rd7Vcr0MC2JPE/o2qnJ+Q/gn+86G+r6lL64LZHCQ==",
+  "signature": "Fp76xyhLlPkWVnlM43T8UisKj4Kr6tC6eoea8cyNah38mCnQlZ4naSMwUhYlvKC72hbJFHVhcs43pyVs7Z6LCw==",
   "signing_key_id": "fluyt-release"
 }
