@@ -1,30 +1,30 @@
 {
   "version": 1,
-  "core_version": "0.2.51-d4832c",
-  "generated": "2026-09-01T21:29:17Z",
+  "core_version": "0.2.52-242cad",
+  "generated": "2026-09-01T22:00:32Z",
   "builds": [
     {
       "os": "darwin",
       "arch": "arm64",
-      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.51-d4832c/fluyt-darwin-arm64",
-      "sha256": "2bb969fc99e18c2a07568c867f2390833b618380a85a5e605a39dc613023964c",
+      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.52-242cad/fluyt-darwin-arm64",
+      "sha256": "2d760c80b792978c9abe7b87c0448e32f1f5931582ee68c344f93a7f14d39d3f",
       "size": 11720992
     },
     {
       "os": "linux",
       "arch": "amd64",
-      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.51-d4832c/fluyt-linux-amd64",
-      "sha256": "2f05ff1b86a6136ed367c559c7841dcf0fc1e1a924971c4ceff24893c45a7b7e",
+      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.52-242cad/fluyt-linux-amd64",
+      "sha256": "edbc7fd80c092f8a71413b66698e3ce4da2e88e3d8fc1f640be2dfd99e82a2d3",
       "size": 10313888
     },
     {
       "os": "windows",
       "arch": "amd64",
-      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.51-d4832c/fluyt-windows-amd64.exe",
-      "sha256": "a3752db12cc460adac45334477030919e3509d0d0c46711fcc358aa4ec518a0c",
+      "url": "https://raw.githubusercontent.com/begley-blu/fluyt/main/core/v0.2.52-242cad/fluyt-windows-amd64.exe",
+      "sha256": "23e31ccfa545c4e498fd4c409ccf937fdeef297e54f8d296d7aeb8117e41a0c4",
       "size": 13833216
     }
   ],
-  "signature": "k/kLHdqH+2md/A29jX1ZobGTZjdP9+DgFB1R16ZHuOJQRd6UrT3FZYSlpVznxvrN7n4eexCsmdRvoN+QIe0fCQ==",
+  "signature": "KvgxMfGHXfcYX/Lyo4rgW+J0hrTcd/nMZioCzvBYhvJXnoUyeLoI8J2AdHbenjlrdP/xkDomvkGNkX3q9FlgCg==",
   "signing_key_id": "fluyt-release"
 }
